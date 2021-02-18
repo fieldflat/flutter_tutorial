@@ -2,7 +2,13 @@ import 'package:flutter/material.dart';
 
 void main() {
   runApp(
-    MaterialApp(home: FirstRoute())
+    MaterialApp(
+      initialRoute: '/first',
+      routes: <String, WidgetBuilder> {
+        '/first': (BuildContext context) => FirstRoute(),
+        '/second': (BuildContext context) => SecondRoute(),
+      }
+    )
   );
 }
 
@@ -19,11 +25,7 @@ class FirstRoute extends StatelessWidget {
           children: <Widget>[
             RaisedButton(
               onPressed: (){
-                Navigator.push(context,
-                  MaterialPageRoute(
-                    builder: (context) => SecondRoute()
-                  )
-                );
+                Navigator.pushNamed(context, '/second');
               },
               child: Text(
                 'Push Here',
