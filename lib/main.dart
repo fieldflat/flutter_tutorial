@@ -1,66 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
-  runApp(
-    MaterialApp(
-      initialRoute: '/first',
-      routes: <String, WidgetBuilder> {
-        '/first': (BuildContext context) => FirstRoute(),
-        '/second': (BuildContext context) => SecondRoute(),
-      }
-    )
-  );
-}
-
-class FirstRoute extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('First Route'),
-      ),
+  runApp(MaterialApp(
+    home: Scaffold(
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            RaisedButton(
-              onPressed: (){
-                Navigator.pushNamed(context, '/second');
-              },
-              child: Text(
-                'Push Here',
-                style: TextStyle(fontSize: 20),
-              ),
-            ),
-          ],
+      child: RaisedButton(
+        onPressed: _incrementCounter,
+        child: Text('Increment Counter'),
         ),
       ),
-    );
-  }
+    ),
+  ));
 }
 
-class SecondRoute extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Second Route'),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            RaisedButton(
-              onPressed: (){
-                Navigator.pop(context);
-              },
-              child: Text('Push Here2',
-                style: TextStyle(fontSize: 20),
-              )
-            ),
-          ],
-        ),
-      ),
-    );
-  }
+_incrementCounter() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  int counter = (prefs.getInt('counter') ?? 0) + 1;
+  print('Pressed $counter times.');
+  await prefs.setInt('counter', counter);
 }
